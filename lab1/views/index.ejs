@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Заметки</title>
+    <meta charset="utf-8" />  
+    <link rel="stylesheet" type="text/css"  href="/indexView.css">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Neucha&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Заметки</h1>
+    </header>   
+
+    <ul class="list">
+        <li>
+            <form action="/filter/All" method="get" >
+                <input type="submit" value = "Все"  class="filter-button"/>
+            </form>
+        </li>
+        <li>
+            <form action="/filter/New" method="get" >
+                <input type="submit" value = "Новая" class="filter-button"/>
+            </form>
+        </li>
+        <li>
+            <form action="/filter/Process" method="get">
+                <input type="submit" value = "Обрабатывается"  class="filter-button"/>
+            </form>
+        </li>
+        <li>
+            <form action="/filter/Complete" method="get">
+                <input type="submit" value = Завершено  class="filter-button"/>
+            </form>
+        </li>
+    </ul>
+    
+    <form action="/" method="post" class="add-form">
+        <label>Заголовок</label><br>
+        <input type="text" name="caption" class="inp-caption"/><br><br>
+        <label>Текст</label><br>
+        <textarea name = "content"></textarea><br>
+        <select name = "status">
+            <option value="Завершено">Завершено</option>
+            <option value="Обрабатывается">Обрабатывается</option>
+            <option value="Новая">Новая</option>
+        </select><br><br>
+        <input type="submit" value = "Добавить заметку" class="add-button"/>
+    </form>
+
+
+    <% var color; %>
+
+    <% if (notes.length != 0)  {%>
+        <% for (var i = 0; i < notes.length; i++) { %>
+            <% if (notes[i].status.localeCompare("Новая") == 0) color = "green";%>
+            <% if (notes[i].status.localeCompare("Обрабатывается") == 0) color = "yellow";%>
+            <% if (notes[i].status.localeCompare("Завершено") == 0) color = "red";%>
+            <div class = <%= "note-" + color %>>
+                <h2><%= notes[i].caption %></h2>
+                <span><%= notes[i].date %></span>
+                <span><%= notes[i].status %></span>
+                <p><%= notes[i].content %></p>
+                <form   action= <%= "/delete/" + notes[i].id %> method="post" class="delete-form">
+                    <input type="submit" value="Удалить" class="delete-button">
+                </form>
+                <form   action= <%= "/edit/" + notes[i].id %> method="post" class="change-form">
+                    <input type="submit" value="Изменить" class="change-button">
+                </form>
+            </div>
+        <% } %>
+    <% } %>
+
+
+
+
+</body>
+<html>
