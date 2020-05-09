@@ -33,9 +33,7 @@ app.post("/applyEdit/:noteId", urlencodedParser, function(request, response) {
         data = JSON.stringify(notes);
         fs.writeFileSync("notes.json", data);
 
-        response.render("index", {
-            notes : notes
-        });
+        response.redirect("/");
     }
     else {
         response.status(404).send();
@@ -117,9 +115,7 @@ app.post("/delete/:noteId", function(request, response) {
         data = JSON.stringify(notes);
         fs.writeFileSync("notes.json", data);
 
-        response.render("index", {
-            notes : notes
-        });
+        response.redirect("/");
     }
     else {
         response.status(404).send();
@@ -156,9 +152,7 @@ app.post("/", urlencodedParser, function(request, response) {
         data = JSON.stringify(notes);
         // перезаписываем файл с новыми данными
         fs.writeFileSync("notes.json", data);
-        response.render("index", {
-            notes : notes
-        });
+        response.redirect("/");
 });
 
 app.get("/", function(request, response){ 
