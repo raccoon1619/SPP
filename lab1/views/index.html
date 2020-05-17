@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Заметки</title>
+    <meta charset="utf-8" />  
+    <link rel="stylesheet" type="text/css"  href="/indexView.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Neucha&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Заметки</h1>
+    </header>   
+
+    <ul class="list">
+        <li>Все</li>
+        <li>Новая</li>
+        <li>Обрабатывается</li>
+        <li>Завершено</li>
+    </ul>
+    
+    <form action="/api/notes" method="post" class="add-form" name = "add-form">
+        <input type="hidden" name="id" value="0" />
+        <label>Заголовок</label><br>
+        <input type="text" name="caption" class="inp-caption"/><br><br>
+        <label>Текст</label><br>
+        <textarea name = "content"></textarea><br>
+        <select name = "status">
+            <option value="Завершено">Завершено</option>
+            <option value="Обрабатывается">Обрабатывается</option>
+            <option value="Новая">Новая</option>
+        </select><br><br>
+        <input type="submit" name="add-button" value = "Добавить заметку" class="add-button"/>
+    </form>
+
+    <script>
+
+        function GetNotes() {
+            $.ajax({
+                url: "/api/notes",
+                type: "GET",
+                contentType: "application/json",
+                success: function (notes) {
+                    var notesString = "";
+                    $.each(notes, function(index, note) {
+                        notesString += newNote(note);
+                    })
+                    $("body").append(notesString);
+                }
+            });
+        }
+
+        function GetNote(id) {
+            $.ajax({
+                url: "/api/notes/" + id,
+                type: "GET",
+                contentType: "application/json",
+                success: function (note) {
+                    var form = document.forms["add-form"];
+                    form.elements['id'].value = note._id;
+                    form.elements.caption.value = note.caption;
+                    form.elements.content.value = note.content;
+                    form.elements.status.value = note.status;
+                }
+            });
+        }
+
+        function CreateNote(noteCaption, noteContent, noteStatus) {
+            $.ajax({
+                url: "/api/notes",
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({
+                    caption: noteCaption,
+                    content: noteContent,
+                    status: noteStatus
+                }),
+                success: function (note) {
+                    reset();
+                    $("body").append(newNote(note));
+                    
+                }
+            })
+        }
+
+        function EditNote(noteId, noteCaption, noteContent, noteStatus) {
+            $.ajax({
+                url: "api/notes",
+                contentType: "application/json",
+                method: "PUT",
+                data: JSON.stringify({
+                    id: noteId,
+                    caption: noteCaption,
+                    content: noteContent,
+                    status: noteStatus
+                }),
+                success: function (note) {   
+                    reset();                 
+                    $("div[id='"+ note._id+ "']").replaceWith(newNote(note));
+                    
+                }
+            })
+        }
+  
+   
+        function reset() {
+            var form = document.forms["add-form"];
+            form.reset();
+            form.elements["id"].value = 0;
+            form.elements['add-button'].value = "Добавить заметку";
+        }
+  
+
+        function DeleteNote(id) {
+            $.ajax({
+                url: "api/notes/" + id,
+                contentType: "application/json",
+                method: "DELETE",
+                success: function (note) {
+                    console.log(note);
+                    $("div[id='"+ note._id+ "']").remove();
+                }
+            })
+        }
+
+        function FilterNotes(status) {
+            $.ajax({
+                url: "api/filter/" + status,
+                contentType: "application/json",
+                method: "GET",
+                success: function (notes) {
+                    $("div").remove();
+                    var notesString = "";
+                    $.each(notes, function(index, note) {
+                        notesString += newNote(note);
+                    })
+                    $("body").append(notesString);
+                }
+            })
+        }
+
+        var newNote = function (note) {
+            var color;
+            if (note.status.localeCompare("Новая") == 0) color = "green";
+            if (note.status.localeCompare("Обрабатывается") == 0) color = "yellow";
+            if (note.status.localeCompare("Завершено") == 0) color = "red";
+            return "<div id = '" + note._id + "' class = 'note-" + color + "'>" +
+                       "<h2>" + note.caption + "</h2>" +
+                       "<span>" + note.date + "</span><br>" +
+                       "<span>" + note.status + "</span><br>" +
+                       "<p>"+ note.content + "</p>" +
+                       "<a class = 'delete-button'>Удалить</a>" +
+                       "<a class = 'change-button'>Изменить</a>" +
+                    "</div>";
+        }
+
+        $("#reset").click(function (e) {
+  
+            e.preventDefault();
+            reset();
+        })
+  
+        // отправка формы
+        $("form").submit(function (e) {
+            e.preventDefault();
+            var id = this.elements["id"].value;
+            var caption = this.elements["caption"].value;
+            var content = this.elements["content"].value;
+            var status = this.elements["status"].value;
+            if (id == 0)
+                CreateNote(caption, content, status);
+            else
+                EditNote(id, caption, content, status);
+        });
+
+        $("body").on("click", ".change-button", function () {
+            var id = $(this).parent().attr("id");
+            var form = document.forms["add-form"];
+            form.elements['add-button'].value = "Изменить";
+            GetNote(id);
+        })
+
+        $("body").on("click", ".delete-button", function () {
+            var id = $(this).parent().attr("id");
+            DeleteNote(id);
+        })
+
+        $("body").on("click", "li", function () {
+            let statuses = new Map([
+            ["Новая", "New"],
+            ["Обрабатывается", "Process"],
+            ["Завершено", "Complete"],
+            ["Все", "Notes"]
+         ]);
+            var status = $(this).text();
+            FilterNotes(statuses.get(status));
+        }) 
+        GetNotes();
+  
+    </script>
+
+
+</body>
+<html>

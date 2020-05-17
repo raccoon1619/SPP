@@ -174,7 +174,7 @@ option {
   text-decoration: none;
   outline: none;
   display: inline-block;
-  padding: 0.5vh 6vw;
+  
   margin: auto;
   position: relative;
   color:  rgb(55, 61, 64);
@@ -184,6 +184,7 @@ option {
   text-transform: uppercase;
   letter-spacing: 2px;
 }
+
 .delete-button:before, .change-button:before, .change-button:after,
 .delete-button:after {
   content: "";
@@ -226,8 +227,8 @@ option {
 }
 
 .delete-button:hover, .change-button:hover {
-    background: rgba(255,255,255,.2);
-    color: white;
+      background: rgba(255,255,255,.2);
+      color: white;
 }
 
 .add-button {
