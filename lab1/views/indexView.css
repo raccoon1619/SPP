@@ -1,0 +1,265 @@
+body {
+    background-image: url("background1.jpg");
+  }
+ 
+  h1 {
+    font-family: 'Pacifico', cursive;
+    color: white;
+    text-shadow: #C94C6E 0 0 5px;
+  }
+
+  h2 {
+      font-size: 40px;
+  }
+
+  h2, p, span {
+    font-family: 'Neucha', cursive;
+    color: rgb(55, 61, 64);
+  }
+
+  header {
+    font-family: sans-serif;
+    font-size: 2vw;
+    margin: 2vw;
+    margin-top: 1vw;
+    border-bottom: 13px double #C94C6E;
+  }
+  
+  header h1 {
+    margin: 0;
+    text-align: center;
+  }
+
+  .note-yellow, .note-green, .note-red {
+    width: 45vw;
+    border: 6px solid rgb(233, 233, 233);
+    margin: 2vw auto 2vw auto;
+    transition: 0.2s;
+    text-align: center;
+  }
+
+  .note-yellow {
+    background-image: linear-gradient(45deg, #C7DCFA 0%, #AECDFA 50%, 	#8BB6F4 100%);
+  }
+
+  .note-green {
+    background-image: linear-gradient(45deg, #DCFDC4 0%, #CCFDA9 50%, 	#B6FB85 100%);    
+  }
+
+  .note-red {
+    background-image: linear-gradient(45deg, #FEC5D4 0%, #FEA9C0 50%, 	#FC85A5 100%);  
+  }
+
+  
+   .note-yellow:hover {
+  /*  background: #8BB6F4;*/
+    box-shadow: 0 15px 20px  #8BB6F4;
+    border-color: white;
+    color: white;
+    transform: translateY(-7px);
+  }
+
+  .note-green:hover {
+   /* background: #B6FB85;*/
+    box-shadow: 0 15px 20px  #B6FB85;
+    border-color: white;
+    color: white;
+    transform: translateY(-7px);
+  }
+  
+    .note-red:hover{
+    /*background: #FC85A5;*/
+    box-shadow: 0 15px 20px  #FC85A5;
+    border-color: white;
+    color: white;
+    transform: translateY(-7px);
+  }
+  
+  .note-yellow p, .note-green p, .note-red p {
+    font-family: 'Neucha', cursive;
+    width: 50vw;
+    font-size: 25px;
+    padding-bottom: 10px;
+    text-align: justify;
+    margin: 2vh auto 0 2vw;
+  }
+
+  .note-yellow h2, .note-green h2, .note-red h2 {
+    text-align: center;
+  }
+  
+  
+  .note-yellow:hover span, .note-green:hover span, .note-red:hover span {
+    color: white;
+  }
+
+  
+  .list {
+    position: relative;
+    width: 13vw;
+    height: 83vh;
+    overflow: hidden;
+    display: block;
+    margin-right: 0;
+    float: left;
+  }
+  
+  .list ul {
+    display: block;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+  }
+  
+  li {
+    border: 2px solid #C94C6E;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    padding: 1vw;
+    list-style: none;
+    margin: 0.5vw 0.5vw 1vw 0.5vw;
+    transition: 0.2s;
+    width: 75%;
+  }
+  
+  li:hover {
+    background: rgb(233, 233, 233);
+    box-shadow: 0 15px 20px  rgb(233, 233, 233);
+    border-color: white;
+    color: rgb(55, 61, 64);
+    transform: translateY(-7px);
+  }
+  
+  .filter-button, .delete-button, .change-button {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+ }
+
+ .add-form {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    float: right;
+    border: 2px solid #C94C6E;
+    color: rgb(233, 233, 233);
+    font-family: sans-serif;
+    padding: 1vw;
+    margin: 0.5vw 3vw 1vw 0.5vw;
+ }
+
+.add-form textarea, .inp-caption, .add-form select, .add-form select {
+    width: 15vw;
+    background-color: transparent;    
+    border: 0.1vh solid rgb(233, 233, 233);
+    color: rgb(233, 233, 233);
+    font-family: 'Neucha', cursive;
+    font-size: 20px;    
+}
+
+.add-form textarea {
+    height: 15vh;
+}
+
+option {
+    background-color: rgb(55, 61, 64);
+}
+
+.delete-button, .change-button {
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  
+  margin: auto;
+  position: relative;
+  color:  rgb(55, 61, 64);
+  background: none;
+  font-weight: 300;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.delete-button:before, .change-button:before, .change-button:after,
+.delete-button:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  box-sizing: border-box;
+}
+.delete-button:before, .delete-button:before {
+  bottom: 0;
+  left: 0;
+  border-left: 1px solid white;
+  border-top: 1px solid white;
+  transition: 0s ease opacity .8s, .2s ease width .4s, .2s ease height .6s;
+}
+.delete-button:after, .change-button:after {
+  top: 0;
+  right: 0;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+  transition: 0s ease opacity .4s, .2s ease width , .2s ease height .2s;
+}
+
+.delete-button:hover:before, 
+.change-button:hover:before, 
+.change-button:hover:after,
+.delete-button:hover:after {
+  height: 100%;
+  width: 100%;
+  opacity: 1;
+}
+
+.delete-button:hover:before, .change-button:hover:before {
+    transition: 0s ease opacity 0s, .2s ease height, .2s ease width .2s;
+}
+
+.delete-button:hover:after, .change-button:hover:after {
+    transition: 0s ease opacity .4s, .2s ease height .4s , .2s ease width .6s;
+}
+
+.delete-button:hover, .change-button:hover {
+      background: rgba(255,255,255,.2);
+      color: white;
+}
+
+.add-button {
+    outline: none;
+    display: inline-block;
+    padding: 10px 30px;
+    margin: 10px 20px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #C94C6E;
+    font-family: 'Montserrat', sans-serif; 
+    color: rgb(233, 233, 233);
+    transition: .2s ease-in-out;
+    background-color: transparent;
+  }
+  .add-button:before {
+    content: "";
+    background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.5));
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: -8px;
+    left: -75px;
+    transform: skewX(-45deg);
+  }
+  .add-button:hover {
+    background: #C94C6E;
+    color: #fff;
+    border-color: rgb(233, 233, 233);
+  }
+  .add-button:hover:before {
+    left: 150px;
+    transition: .5s ease-in-out;
+  }
